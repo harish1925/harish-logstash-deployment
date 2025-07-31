@@ -1,0 +1,29 @@
+- hosts: logstash
+  become: yes
+
+  tasks:
+    - name: Install Java
+      apt:
+        name: openjdk-11-jre-headless
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install Java (RedHat)
+      yum:
+        name: java-11-openjdk
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install Logstash
+      shell: |
+        wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+        sudo apt-get install apt-transport-https -y
+        echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+        sudo apt-get update && sudo apt-get install logstash -y
+      when: ansible_os_family == 'Debian'
+
+    - name: Ensure Logstash service is started and enabled
+      service:
+        name: logstash
+        state: started
+        enabled: yes
