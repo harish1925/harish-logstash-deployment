@@ -8,7 +8,8 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone       = "us-east-1a"
+  availability_zone       = "us-east-1a" ### Hardcoding the AZ can cause issues. It's better to
+  #              pass this in as a variable from the root module or use a dinamic retieval with aws resources.
   tags = {
     Name = "public-subnet"
   }

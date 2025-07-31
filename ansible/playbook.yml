@@ -1,6 +1,10 @@
 - hosts: logstash
   become: yes
 
+  ### This play will fail because the logstash host is in a private subnet.
+#      The inventory needs to be configured with a ProxyCommand or jump host
+#      setting to connect via the bastion.
+
   tasks:
     - name: Install Java
       apt:
@@ -15,6 +19,9 @@
       when: ansible_os_family == 'RedHat'
 
     - name: Install Logstash
+    ### This shell command is not idempotent. It's better to use
+#              dedicated Ansible modules like 'apt_key', 'apt_repository',
+#              and 'apt' for a more robust and reliable installation(avoid potential issues).
       shell: |
         wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
         sudo apt-get install apt-transport-https -y

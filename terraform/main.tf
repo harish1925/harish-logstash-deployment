@@ -37,7 +37,7 @@ module "bastion" {
 module "logstash" {
   source        = "./modules/compute"
   name          = "logstash"
-  ami_id        = "ami-02003f9f0fde924ea"
+  ami_id        = "ami-02003f9f0fde924ea" ### Avoid always any kind of hardcoding, we need to follow always DRY principle
   instance_type = "t2.micro"
   subnet_id     = module.networking.private_subnet_id
   vpc_id        = module.networking.vpc_id
