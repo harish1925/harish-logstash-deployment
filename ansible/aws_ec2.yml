@@ -1,0 +1,16 @@
+# aws_ec2.yml
+plugin: amazon.aws.aws_ec2
+regions:
+  - eu-central-1        # Change to your region
+filters:
+  tag:Name:
+    - bastion           # To get the bastion node
+    - logstash          # To get the logstash node
+keyed_groups:
+  - key: tags.Name
+    prefix: ""
+hostnames:
+  - private_ip_address  # Or 'public_ip_address' for public hosts like bastion
+groups:
+    bastion: "tags['Name'] == 'bastion'" 
+    logstash: "tags['Name'] == 'logstash'" 

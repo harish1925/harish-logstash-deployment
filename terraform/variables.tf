@@ -8,3 +8,6 @@ variable "project_name" {
   default     = "logstash-project"
 }
 
+variable "ami_id" {
+  
+}

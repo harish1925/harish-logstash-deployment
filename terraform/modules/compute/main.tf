@@ -30,7 +30,10 @@ resource "aws_instance" "ec2_instance" {
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
-  tags = {
-    Name = var.name
-  }
+   tags = merge(
+    {
+      Name = var.name
+    },
+    var.tags
+  )
 }

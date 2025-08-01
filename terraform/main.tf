@@ -13,7 +13,8 @@ module "networking" {
 module "bastion" {
   source        = "./modules/compute"
   name          = "bastion"
-  ami_id        = "ami-02003f9f0fde924ea"
+  ami_id        = var.ami_id
+
   instance_type = "t2.micro"
   subnet_id     = module.networking.public_subnet_id
   vpc_id        = module.networking.vpc_id
@@ -33,12 +34,18 @@ module "bastion" {
       cidr_block = "0.0.0.0/0"
     }
   ]
+  tags = {
+    Name = "bastion"
+  }
 }
 module "logstash" {
   source        = "./modules/compute"
   name          = "logstash"
-  ami_id        = "ami-02003f9f0fde924ea"
+  ami_id        =  var.ami_id
   instance_type = "t2.micro"
+   tags = {
+    Name = "logstash"
+  }
   subnet_id     = module.networking.private_subnet_id
   vpc_id        = module.networking.vpc_id
   ingress_rules = [

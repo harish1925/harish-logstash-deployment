@@ -13,6 +13,10 @@ variable "subnet_id" {
 variable "vpc_id" {
   type = string
 }
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
 variable "ingress_rules" {
   type = list(object({
     from_port = number
